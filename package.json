@@ -20,7 +20,6 @@
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "node-sass": "^4.13.1",
     "prettier": "^2.2.1",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
