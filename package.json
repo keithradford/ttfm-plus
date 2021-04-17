@@ -6,7 +6,9 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --config webpack.dev.js",
     "watch": "webpack -w --config webpack.dev.js",
-    "lint": "eslint . --ext=.ts,.tsx"
+    "lint": "eslint . --ext=.ts,.tsx",
+    "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
+    "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
   "devDependencies": {
     "@types/chrome": "^0.0.60",
@@ -16,7 +18,10 @@
     "@typescript-eslint/parser": "^4.22.0",
     "css-loader": "^3.4.2",
     "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "node-sass": "^4.13.1",
+    "prettier": "^2.2.1",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "ts-loader": "^4.0.1",
