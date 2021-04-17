@@ -1,6 +1,6 @@
 # ttfm+
 
-> This project is a boilerplate project to allow you to quickly build chrome extensions using TypeScript and React.
+A better way to turn tables.
 
 ## Building
 
