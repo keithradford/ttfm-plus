@@ -1,10 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getCurrentTabUrl } from '../utils';
 
 export default function Popup(): JSX.Element {
+  const [url, setUrl] = useState<string>('');
+
   useEffect(() => {
-    // Example of how to send a message to eventPage.ts.
-    chrome.runtime.sendMessage({ popupMounted: true });
+    getCurrentTabUrl((url) => {
+      setUrl(url || 'undefined');
+    });
   }, []);
 
-  return <div>Hello, world!</div>;
+  const sendAMessage = () => {
+    // Example of how to send a message to eventPage.ts.
+    chrome.runtime.sendMessage({ popupMounted: true });
+  };
+
+  return (
+    <div>
+      Hello, {url}! <button onClick={sendAMessage}>yo</button>
+    </div>
+  );
 }
