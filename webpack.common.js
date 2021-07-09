@@ -4,7 +4,8 @@ module.exports = {
   entry: {
     popup: path.join(__dirname, "src/popup/index.tsx"),
     eventPage: path.join(__dirname, "src/eventPage.ts"),
-    content: path.join(__dirname, 'src/content.ts')
+    content: path.join(__dirname, 'src/content.ts'),
+    autolike: path.join(__dirname, 'src/autolike.ts')
   },
   output: {
     path: path.join(__dirname, "dist/js"),

@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.turntable.fm/*"],
-      "js": ["js/content.js"],
+      "js": ["js/content.js", "js/autolike.js"],
       "run_at": "document_end"
     }
   ],
