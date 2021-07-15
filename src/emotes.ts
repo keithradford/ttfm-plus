@@ -1,4 +1,4 @@
-import { emotes } from './emote_list';
+import { emotes } from './static/emote_list';
 
 /* -------------------- HELPER FUNCTIONS -------------------- */
 
@@ -14,7 +14,7 @@ const parseMessage = (text: string, HTML: string) => {
   });
 
   // compare each word in the message with the emotes, if there is an exact match, replace them
-  messageString.forEach((word: string) => {
+  messageString.forEach((word) => {
     emotesInMessage.forEach(({ name, id }) => {
       if (word === name) {
         HTML = HTML.replace(

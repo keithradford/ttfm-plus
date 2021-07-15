@@ -12,12 +12,9 @@ export default function Popup(): JSX.Element {
   const changeEmoteStatus = useCallback(() => {
     const currentEmoteStatus = !emotesEnabled; // setState is not guaranteed to mutate state immediately, need new value
     setEmotesEnabled(!emotesEnabled);
-    let message: string;
-    if (currentEmoteStatus) {
-      message = 'enableEmotes';
-    } else {
-      message = 'disableEmotes';
-    }
+    const message: string = currentEmoteStatus
+      ? 'enableEmotes'
+      : 'disableEmotes';
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
         emotesEnabled: currentEmoteStatus,
@@ -26,24 +23,16 @@ export default function Popup(): JSX.Element {
     });
   }, [emotesEnabled]);
 
-  let emotesButton;
-  if (emotesEnabled)
-    emotesButton = (
-      <input
-        type="checkbox"
-        name="autolikeCheckbox"
-        onChange={changeEmoteStatus}
-        checked
-      />
-    );
-  else
-    emotesButton = (
-      <input
-        type="checkbox"
-        name="autolikeCheckbox"
-        onChange={changeEmoteStatus}
-      />
-    );
+  const emotesButton = emotesEnabled ? (
+    <input
+      type="checkbox"
+      name="emotesCheckbox"
+      onChange={changeEmoteStatus}
+      checked
+    />
+  ) : (
+    <input type="checkbox" name="emotesCheckbox" onChange={changeEmoteStatus} />
+  );
 
   return (
     <div style={{ width: '150px' }}>
