@@ -11,7 +11,7 @@ export default function Popup(): JSX.Element {
 
   const changeEmoteStatus = useCallback(() => {
     const currentEmoteStatus = !emotesEnabled; // setState is not guaranteed to mutate state immediately, need new value
-    setEmotesEnabled(!emotesEnabled);
+    setEmotesEnabled((emotesEnabled) => !emotesEnabled);
     const message: string = currentEmoteStatus
       ? 'enableEmotes'
       : 'disableEmotes';
