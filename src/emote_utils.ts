@@ -56,7 +56,7 @@ const mutationCallback = (mutationsList) => {
 };
 
 // This gets the targetNode the MutationObserver needs to watch
-export const addObserverIfNodeAvailable = () => {
+export const addObserverIfNodeAvailable = (): void => {
   const targetNode = document.getElementsByClassName('messages')[0];
   if (!targetNode) {
     // The node we need does not exist yet.
