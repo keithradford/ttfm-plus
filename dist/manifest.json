@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.turntable.fm/*"],
-      "js": ["js/content.js"],
+      "js": ["js/emotes.js"],
       "run_at": "document_end"
     }
   ],
@@ -27,7 +27,8 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "optional_permissions": [
     "<all_urls>"

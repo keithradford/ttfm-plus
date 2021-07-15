@@ -1,23 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { getCurrentTabUrl } from '../utils';
+import React, { useCallback, useEffect, useState } from 'react';
 
 export default function Popup(): JSX.Element {
-  const [url, setUrl] = useState<string>('');
+  const [emotesEnabled, setEmotesEnabled] = useState(null);
 
   useEffect(() => {
-    getCurrentTabUrl((url) => {
-      setUrl(url || 'undefined');
+    chrome.storage.sync.get(['emotesEnabled'], (result) => {
+      setEmotesEnabled(result['emotesEnabled']);
     });
   }, []);
 
-  const sendAMessage = () => {
-    // Example of how to send a message to eventPage.ts.
-    chrome.runtime.sendMessage({ popupMounted: true });
-  };
+  const changeEmoteStatus = useCallback(() => {
+    const currentEmoteStatus = !emotesEnabled; // setState is not guaranteed to mutate state immediately, need new value
+    setEmotesEnabled((emotesEnabled) => !emotesEnabled);
+    const message: string = currentEmoteStatus
+      ? 'enableEmotes'
+      : 'disableEmotes';
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        emotesEnabled: currentEmoteStatus,
+        message: message
+      });
+    });
+  }, [emotesEnabled]);
+
+  const emotesButton = emotesEnabled ? (
+    <input
+      type="checkbox"
+      name="emotesCheckbox"
+      onChange={changeEmoteStatus}
+      checked
+    />
+  ) : (
+    <input type="checkbox" name="emotesCheckbox" onChange={changeEmoteStatus} />
+  );
 
   return (
-    <div>
-      Hello, {url}! <button onClick={sendAMessage}>yo</button>
+    <div style={{ width: '150px' }}>
+      <h3>tt.fm+</h3>
+      <br />
+      Twitch Emotes
+      {emotesButton}
     </div>
   );
 }
