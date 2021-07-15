@@ -1,5 +1,7 @@
 import { emotes } from './emote_list';
 
+/* -------------------- HELPER FUNCTIONS -------------------- */
+
 const parseMessage = (text: string, HTML: string) => {
   const emotesInMessage = [];
   const messageString = text.split(' ');
@@ -55,7 +57,7 @@ const mutationCallback = (mutationsList) => {
   }
 };
 
-// This define what element should be observed by the observer and what types of mutations trigger the callback
+// This gets the targetNode the MutationObserver needs to watch
 const addObserverIfNodeAvailable = () => {
   const targetNode = document.getElementsByClassName('messages')[0];
   if (!targetNode) {
@@ -64,9 +66,42 @@ const addObserverIfNodeAvailable = () => {
     window.setTimeout(addObserverIfNodeAvailable, 500);
     return;
   }
+
   const config = { childList: true, subtree: true, attributes: false };
-  const observer = new MutationObserver(mutationCallback);
+  observer = new MutationObserver(mutationCallback);
   observer.observe(targetNode, config);
 };
 
-addObserverIfNodeAvailable();
+/* ---------------------------------------------------------- */
+
+/* ----------------------- MAIN DRIVER ---------------------- */
+
+// global variable for the MutationObserver
+let observer: MutationObserver;
+
+// Handles button click events
+chrome.runtime.onMessage.addListener((request) => {
+  // onMessage must return "true" if response is async.
+  const isResponseAsync = false;
+
+  if (request.emotesEnabled && request.message === 'enableEmotes') {
+    chrome.storage.sync.set({ emotesEnabled: true }, function () {
+      addObserverIfNodeAvailable();
+    });
+  } else if (!request.emotesEnabled && request.message === 'disableEmotes') {
+    chrome.storage.sync.set({ emotesEnabled: false }, function () {
+      observer.disconnect();
+    });
+  }
+
+  return isResponseAsync;
+});
+
+// Handles on page load if emotes are enabled
+chrome.storage.sync.get('emotesEnabled', function (result) {
+  if (result['emotesEnabled']) {
+    addObserverIfNodeAvailable();
+  }
+});
+
+/* ---------------------------------------------------------- */
