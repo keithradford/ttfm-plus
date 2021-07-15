@@ -30,6 +30,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "lint": "^0.7.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }

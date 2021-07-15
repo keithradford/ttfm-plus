@@ -16,21 +16,24 @@ export default function Popup(): JSX.Element {
   };
 
   const [isEnabled, setIsEnabled] = useState(true);
-  
+
   const changeAutolike = useCallback(() => {
     setIsEnabled(!isEnabled);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {isEnabled: isEnabled});
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { isEnabled: isEnabled });
     });
   }, [isEnabled]);
 
   return (
     <div>
       Hello, {url}! <button onClick={sendAMessage}>yo</button>
-      <br>
-      </br>
-      Auto-Awesome <input type="checkbox" name="autolikeCheckbox" onChange={changeAutolike} />
+      <br></br>
+      Auto-Awesome{' '}
+      <input
+        type="checkbox"
+        name="autolikeCheckbox"
+        onChange={changeAutolike}
+      />
     </div>
   );
 }
-
