@@ -16,11 +16,24 @@ chrome.runtime.onMessage.addListener((request) => {
   // onMessage must return "true" if response is async.
   const isResponseAsync = false;
 
-  if (request.isEnabled) {
+  if (request.autoAwesome && request.message === 'enableAutoAwesome') {
     autoAwesome = setInterval(voteAwesome, 10000);
-  } else {
+    chrome.storage.sync.set({ autoAwesome: true }, function () {
+      console.log("Auto-awesomeing!");
+    });
+  } else if (!request.autoAwesome && request.message === 'disableAutoAwesome') {
     clearInterval(autoAwesome);
+    chrome.storage.sync.set({ autoAwesome: false }, function () {
+      console.log("Not auto-awesomeing.");
+    });
   }
 
   return isResponseAsync;
+});
+
+chrome.storage.sync.get('autoAwesome', function (result) {
+  if (result['autoAwesome']) {
+    autoAwesome = setInterval(voteAwesome, 10000);
+    console.log('Auto-Awesome Enabled.');
+  }
 });

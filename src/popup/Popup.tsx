@@ -4,9 +4,14 @@ import { getCurrentTabUrl } from '../utils';
 export default function Popup(): JSX.Element {
   const [url, setUrl] = useState<string>('');
 
+  const [autolikeEnabled, setAutolikeEnabled] = useState(null);
+
   useEffect(() => {
     getCurrentTabUrl((url) => {
       setUrl(url || 'undefined');
+    });
+    chrome.storage.sync.get(['autoAwesome'], (result) => {
+      setAutolikeEnabled(result['autoAwesome']);
     });
   }, []);
 
@@ -15,25 +20,37 @@ export default function Popup(): JSX.Element {
     chrome.runtime.sendMessage({ popupMounted: true });
   };
 
-  const [isEnabled, setIsEnabled] = useState(true);
-
   const changeAutolike = useCallback(() => {
-    setIsEnabled(!isEnabled);
+    const currentLikeStatus = !autolikeEnabled;
+    setAutolikeEnabled((autolikeEnabled) => !autolikeEnabled);
+    const message = currentLikeStatus
+      ? 'enableAutoAwesome'
+      : 'disableAutoAwesome';
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { isEnabled: isEnabled });
+      chrome.tabs.sendMessage(tabs[0].id, {
+        autoAwesome: currentLikeStatus,
+        message: message
+      });
     });
-  }, [isEnabled]);
+  }, [autolikeEnabled]);
+
+  const autoLikeButton = autolikeEnabled ? (
+    <input
+      type="checkbox"
+      name="autolikeCheckbox"
+      onChange={changeAutolike}
+      checked
+    />
+  ) : (
+    <input type="checkbox" name="autolikeCheckbox" onChange={changeAutolike} />
+  );
 
   return (
     <div>
       Hello, {url}! <button onClick={sendAMessage}>yo</button>
-      <br></br>
-      Auto-Awesome{' '}
-      <input
-        type="checkbox"
-        name="autolikeCheckbox"
-        onChange={changeAutolike}
-      />
+      <br />
+      Auto-Awesome
+      {autoLikeButton}
     </div>
   );
 }
