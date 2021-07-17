@@ -1,4 +1,4 @@
-import { addDarkThemeCSS, removeDarkThemeCSS } from './darktheme_utils';
+import { addDarkThemeCSS, removeDarkThemeCSS } from './utils/darktheme';
 
 // Handles input
 chrome.runtime.onMessage.addListener((request) => {

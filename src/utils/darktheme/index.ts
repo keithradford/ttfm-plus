@@ -1,6 +1,6 @@
 export const addDarkThemeCSS = (): void => {
   const link = document.createElement('link');
-  link.href = chrome.extension.getURL('darktheme.css');
+  link.href = chrome.extension.getURL('styles/darktheme.css');
   link.type = 'text/css';
   link.rel = 'stylesheet';
   link.id = 'darkThemeCSS';
