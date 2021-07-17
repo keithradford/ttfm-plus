@@ -1,6 +1,8 @@
+import { Container, Divider, Heading, VStack } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
+import { LabeledSwitch } from '../components/LabeledSwitch';
 
-export default function Popup(): JSX.Element {
+export function Popup(): JSX.Element {
   const [emotesEnabled, setEmotesEnabled] = useState(null);
 
   useEffect(() => {
@@ -10,7 +12,8 @@ export default function Popup(): JSX.Element {
   }, []);
 
   const changeEmoteStatus = useCallback(() => {
-    const currentEmoteStatus = !emotesEnabled; // setState is not guaranteed to mutate state immediately, need new value
+    // setState is not guaranteed to mutate state immediately, need new value
+    const currentEmoteStatus = !emotesEnabled;
     setEmotesEnabled((emotesEnabled) => !emotesEnabled);
     const message: string = currentEmoteStatus
       ? 'enableEmotes'
@@ -23,23 +26,19 @@ export default function Popup(): JSX.Element {
     });
   }, [emotesEnabled]);
 
-  const emotesButton = emotesEnabled ? (
-    <input
-      type="checkbox"
-      name="emotesCheckbox"
-      onChange={changeEmoteStatus}
-      checked
-    />
-  ) : (
-    <input type="checkbox" name="emotesCheckbox" onChange={changeEmoteStatus} />
-  );
-
   return (
-    <div style={{ width: '150px' }}>
-      <h3>tt.fm+</h3>
-      <br />
-      Twitch Emotes
-      {emotesButton}
-    </div>
+    <Container w="25em" h="15em" bgColor="#243454" color="#a37b04">
+      <Heading>tt.fm+</Heading>
+      <Divider mb="1em" />
+      <VStack justifyContent="space-between">
+        <LabeledSwitch
+          label="twitch emotes"
+          name="emotes-switch"
+          isChecked={emotesEnabled}
+          onChange={changeEmoteStatus}
+        />
+        <LabeledSwitch label="test" name="test-switch" />
+      </VStack>
+    </Container>
   );
 }
