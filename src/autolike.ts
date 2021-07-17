@@ -17,14 +17,12 @@ chrome.runtime.onMessage.addListener((request) => {
   const isResponseAsync = false;
 
   if (request.autoAwesome && request.message === 'enableAutoAwesome') {
-    autoAwesome = setInterval(voteAwesome, 10000);
     chrome.storage.sync.set({ autoAwesome: true }, function () {
-      console.log("Auto-awesomeing!");
+      autoAwesome = setInterval(voteAwesome, 10000);
     });
   } else if (!request.autoAwesome && request.message === 'disableAutoAwesome') {
-    clearInterval(autoAwesome);
     chrome.storage.sync.set({ autoAwesome: false }, function () {
-      console.log("Not auto-awesomeing.");
+      clearInterval(autoAwesome);
     });
   }
 
@@ -34,6 +32,5 @@ chrome.runtime.onMessage.addListener((request) => {
 chrome.storage.sync.get('autoAwesome', function (result) {
   if (result['autoAwesome']) {
     autoAwesome = setInterval(voteAwesome, 10000);
-    console.log('Auto-Awesome Enabled.');
   }
 });
