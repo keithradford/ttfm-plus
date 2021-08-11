@@ -4,10 +4,15 @@ export default function Popup(): JSX.Element {
   const [emotesEnabled, setEmotesEnabled] = useState(null);
   const [darkThemeEnabled, setDarkTheme] = useState(null);
 
+  const [autolikeEnabled, setAutolikeEnabled] = useState(null);
+
   useEffect(() => {
     chrome.storage.sync.get(['emotesEnabled', 'darkThemeEnabled'], (result) => {
       setEmotesEnabled(result['emotesEnabled']);
       setDarkTheme(result['darkThemeEnabled']);
+    });
+    chrome.storage.sync.get(['autoAwesome'], (result) => {
+      setAutolikeEnabled(result['autoAwesome']);
     });
   }, []);
 
@@ -69,12 +74,40 @@ export default function Popup(): JSX.Element {
     />
   );
 
+  const changeAutolike = useCallback(() => {
+    const currentLikeStatus = !autolikeEnabled;
+    setAutolikeEnabled((autolikeEnabled) => !autolikeEnabled);
+    const message = currentLikeStatus
+      ? 'enableAutoAwesome'
+      : 'disableAutoAwesome';
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        autoAwesome: currentLikeStatus,
+        message: message
+      });
+    });
+  }, [autolikeEnabled]);
+
+  const autoLikeButton = autolikeEnabled ? (
+    <input
+      type="checkbox"
+      name="autolikeCheckbox"
+      onChange={changeAutolike}
+      checked
+    />
+  ) : (
+    <input type="checkbox" name="autolikeCheckbox" onChange={changeAutolike} />
+  );
+
   return (
     <div style={{ width: '150px' }}>
       <h3>tt.fm+</h3>
       <br />
       Twitch Emotes
       {emotesButton}
+      <br />
+      Auto-Awesome
+      {autoLikeButton}
       <br />
       Dark Theme
       {themeButton}

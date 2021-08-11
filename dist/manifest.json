@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.turntable.fm/*"],
-      "js": ["js/emotes.js", "js/darktheme.js"],
+      "js": ["js/emotes.js", "js/autolike.js", "js/darktheme.js"],
       "run_at": "document_end"
     }
   ],
