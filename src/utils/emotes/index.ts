@@ -1,4 +1,4 @@
-import { emotes } from './static/emote_list';
+import { emotes } from '../../static/emote_list';
 
 const parseMessage = (text: string, HTML: string) => {
   const emotesInMessage = [];

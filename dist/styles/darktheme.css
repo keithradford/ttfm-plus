@@ -1,0 +1,75 @@
+/* chat */
+
+.messages {
+    background-color: #333 !important;
+}
+.message {
+    background-color: #333 !important; 
+    color: #fff !important;
+}
+
+.default-message, #playlist-display {
+    text-shadow: none;
+}
+
+.message-input {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #eee;
+    color: white;
+    background: #333;
+}
+
+/* chat bar / song list */
+.floating-panel-header, .floating-panel-bar, #queue-header, #playlist-display {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: none;
+    background-color: #1a1a1a;
+    border-bottom: #1a1a1a;
+    border-top: none;
+}
+
+#playlist-display {
+    border: 2px solid #eee;
+}
+
+/* song list */
+
+.song {
+    background-color: #333 !important;
+}
+
+.song .title {
+    color: #eee !important;
+}
+
+.song.nth-child-even {
+    background-color: #1a1a1a !important;
+}
+
+/* room info */
+
+.room-tab .sliding-nav {
+    background-color: #1a1a1a !important;
+}
+
+.room-info-intro, .room-name {
+    color: #eee !important;
+}
+
+.default-message, .queue-message {
+    text-shadow: none;
+}
+
+.room-info-wrap {
+    background-color: #333 !important;
+}
+
+.flat-button, .room-info-link, .guest-list-link {
+    background-color: #333 !important;
+}
+
+.flat-button h3, .room-info-link h3, .guest-list-link h3 {
+    color: #eee !important;
+}
