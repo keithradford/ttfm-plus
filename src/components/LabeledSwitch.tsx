@@ -9,7 +9,7 @@ export function LabeledSwitch({ label, ...rest }: Props): JSX.Element {
       <Text fontWeight="bold" as="h2" letterSpacing=".5em">
         {label.toUpperCase()}
       </Text>
-      <Switch {...rest} />
+      <Switch {...rest} colorScheme="logo" />
     </HStack>
   );
 }

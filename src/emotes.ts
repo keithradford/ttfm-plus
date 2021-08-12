@@ -1,4 +1,4 @@
-import { observer, addObserverIfNodeAvailable } from './emote_utils';
+import { observer, addObserverIfNodeAvailable } from './utils/emotes';
 
 // Handles button click events
 chrome.runtime.onMessage.addListener((request) => {
