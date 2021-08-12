@@ -1,78 +1,22 @@
+import { Container, Divider, Heading, VStack } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
+import { LabeledSwitch } from '../components/LabeledSwitch';
 
-export default function Popup(): JSX.Element {
-  const [emotesEnabled, setEmotesEnabled] = useState(null);
-  const [darkThemeEnabled, setDarkTheme] = useState(null);
-
-  const [autolikeEnabled, setAutolikeEnabled] = useState(null);
+export function Popup(): JSX.Element {
+  const [emotesEnabled, setEmotesEnabled] = useState(false);
+  const [darkThemeEnabled, setDarkTheme] = useState(false);
+  const [autolikeEnabled, setAutolikeEnabled] = useState(false);
 
   useEffect(() => {
-    chrome.storage.sync.get(['emotesEnabled', 'darkThemeEnabled'], (result) => {
-      setEmotesEnabled(result['emotesEnabled']);
-      setDarkTheme(result['darkThemeEnabled']);
-    });
-    chrome.storage.sync.get(['autoAwesome'], (result) => {
-      setAutolikeEnabled(result['autoAwesome']);
-    });
+    chrome.storage.sync.get(
+      ['emotesEnabled', 'darkThemeEnabled', 'autoAwesome'],
+      (result) => {
+        setEmotesEnabled(result['emotesEnabled']);
+        setDarkTheme(result['darkThemeEnabled']);
+        setAutolikeEnabled(result['autoAwesome']);
+      }
+    );
   }, []);
-
-  /* Emote Hook + Conditonal Rendering */
-
-  const changeEmoteStatus = useCallback(() => {
-    const currentEmoteStatus = !emotesEnabled; // setState is not guaranteed to mutate state immediately, need new value
-    setEmotesEnabled((emotesEnabled) => !emotesEnabled);
-    const message: string = currentEmoteStatus
-      ? 'enableEmotes'
-      : 'disableEmotes';
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        emotesEnabled: currentEmoteStatus,
-        message: message
-      });
-    });
-  }, [emotesEnabled]);
-
-  const emotesButton = emotesEnabled ? (
-    <input
-      type="checkbox"
-      name="emotesCheckbox"
-      onChange={changeEmoteStatus}
-      checked
-    />
-  ) : (
-    <input type="checkbox" name="emotesCheckbox" onChange={changeEmoteStatus} />
-  );
-
-  /* Theme Hook + Conditonal Rendering */
-
-  const changeThemeStatus = useCallback(() => {
-    const currentThemeStatus = !darkThemeEnabled;
-    setDarkTheme((darkThemeEnabled) => !darkThemeEnabled);
-    const message: string = currentThemeStatus
-      ? 'enableDarkTheme'
-      : 'disableDarkTheme';
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        darkThemeEnabled: currentThemeStatus,
-        message: message
-      });
-    });
-  }, [darkThemeEnabled]);
-
-  const themeButton = darkThemeEnabled ? (
-    <input
-      type="checkbox"
-      name="darkthemeCheckbox"
-      onChange={changeThemeStatus}
-      checked
-    />
-  ) : (
-    <input
-      type="checkbox"
-      name="darkthemeCheckbox"
-      onChange={changeThemeStatus}
-    />
-  );
 
   const changeAutolike = useCallback(() => {
     const currentLikeStatus = !autolikeEnabled;
@@ -88,29 +32,59 @@ export default function Popup(): JSX.Element {
     });
   }, [autolikeEnabled]);
 
-  const autoLikeButton = autolikeEnabled ? (
-    <input
-      type="checkbox"
-      name="autolikeCheckbox"
-      onChange={changeAutolike}
-      checked
-    />
-  ) : (
-    <input type="checkbox" name="autolikeCheckbox" onChange={changeAutolike} />
-  );
+  const changeEmoteStatus = useCallback(() => {
+    // setState is not guaranteed to mutate state immediately, need new value
+    const currentEmoteStatus = !emotesEnabled;
+    setEmotesEnabled((emotesEnabled) => !emotesEnabled);
+    const message: string = currentEmoteStatus
+      ? 'enableEmotes'
+      : 'disableEmotes';
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        emotesEnabled: currentEmoteStatus,
+        message: message
+      });
+    });
+  }, [emotesEnabled]);
+
+  const changeThemeStatus = useCallback(() => {
+    const currentThemeStatus = !darkThemeEnabled;
+    setDarkTheme((darkThemeEnabled) => !darkThemeEnabled);
+    const message: string = currentThemeStatus
+      ? 'enableDarkTheme'
+      : 'disableDarkTheme';
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        darkThemeEnabled: currentThemeStatus,
+        message: message
+      });
+    });
+  }, [darkThemeEnabled]);
 
   return (
-    <div style={{ width: '150px' }}>
-      <h3>tt.fm+</h3>
-      <br />
-      Twitch Emotes
-      {emotesButton}
-      <br />
-      Auto-Awesome
-      {autoLikeButton}
-      <br />
-      Dark Theme
-      {themeButton}
-    </div>
+    <Container w="25em" h="fit-content" bgColor="#243454" color="#a37b04">
+      <Heading>tt.fm+</Heading>
+      <Divider mb="1em" />
+      <VStack justifyContent="space-between" pb="1em">
+        <LabeledSwitch
+          label="twitch emotes"
+          name="emotes-switch"
+          isChecked={emotesEnabled}
+          onChange={changeEmoteStatus}
+        />
+        <LabeledSwitch
+          label="auto-awesome"
+          name="auto-awesome-switch"
+          onChange={changeAutolike}
+          isChecked={autolikeEnabled}
+        />
+        <LabeledSwitch
+          label="dark mode"
+          name="dark-mode-switch"
+          onChange={changeThemeStatus}
+          isChecked={darkThemeEnabled}
+        />
+      </VStack>
+    </Container>
   );
 }
