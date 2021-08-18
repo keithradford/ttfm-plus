@@ -6,6 +6,7 @@
 .message {
     background-color: #333 !important; 
     color: #fff !important;
+    border-bottom: 1px solid #444 !important;
 }
 
 .default-message, #playlist-display {
@@ -15,9 +16,26 @@
 .message-input {
     box-shadow: none;
     -webkit-box-shadow: none;
-    border: 1px solid #eee;
+    border: 1px solid #444;
     color: white;
     background: #333;
+}
+
+.divider {
+    -webkit-box-shadow: inset 1px 0 0 0 #333, inset -1px 0 0 0 #333 !important;
+    -moz-box-shadow: inset 1px 0 0 0 #333,inset -1px 0 0 0 #333 !important;
+    box-shadow: inset 1px 0 0 0 #333, inset -1px 0 0 0 #333 !important;
+}
+
+.chatsound.mention {
+    border: 1px solid #444 !important;
+}
+
+.chatsound-container {
+    background-image: -moz-linear-gradient(top,#333,#444) !important;
+    background-image: -webkit-linear-gradient(top,#333,#444) !important;
+    background-image: -o-linear-gradient(top,#333,#444) !important;
+    background-image: linear-gradient(to bottom,#333,#444) !important;
 }
 
 /* chat bar / song list */
@@ -31,13 +49,26 @@
 }
 
 #playlist-display {
-    border: 2px solid #eee;
+    border: 2px solid #333 !important;
 }
 
 /* song list */
 
+#queue-view {
+    background-color: #1a1a1a;
+}
+
+#song-search-input {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #444;
+    color: white;
+    background: #333;
+}
+
 .song, #songs {
     background-color: #333 !important;
+    border-bottom: 1px solid #333 !important;
 }
 
 .song .title {
@@ -48,13 +79,33 @@
     background-color: #1a1a1a !important;
 }
 
+.progress {
+    background-color: #164050 !important;
+}
+
 /* room info */
+
+.room-tab {
+    border-bottom: solid 1px #333 !important;
+}
 
 .room-tab .sliding-nav {
     background-color: #1a1a1a !important;
 }
 
 .room-info-intro, .room-name {
+    color: #eee !important;
+}
+
+.room-info-intro {
+    border-bottom: solid 1px #333 !important;
+}
+
+.room-info-wrap {
+    border-bottom: solid 1px #333 !important;
+}
+
+.description {
     color: #eee !important;
 }
 
@@ -72,4 +123,8 @@
 
 .flat-button h3, .room-info-link h3, .guest-list-link h3 {
     color: #eee !important;
+}
+
+.flat-button {
+    border: 1px solid #333 !important;
 }
