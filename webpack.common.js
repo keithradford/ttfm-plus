@@ -3,7 +3,6 @@ const path = require("path");
 module.exports = {
   entry: {
     popup: path.join(__dirname, "src/popup/index.tsx"),
-    eventPage: path.join(__dirname, "src/eventPage.ts"),
     emotes: path.join(__dirname, 'src/emotes.ts'),
     autolike: path.join(__dirname, 'src/autolike.ts'),
     darktheme: path.join(__dirname, 'src/darktheme.ts')
