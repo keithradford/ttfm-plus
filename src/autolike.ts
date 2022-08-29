@@ -1,15 +1,6 @@
-// clicks the awesome-button if lame-button is not in the 'selected' state
-function voteAwesome() {
-  if (
-    <HTMLElement>document.getElementsByClassName('lame-button selected')[0] ==
-      undefined &&
-    <HTMLElement>document.getElementsByClassName('awesome-button')[0]
-  ) {
-    (<HTMLElement>document.getElementsByClassName('awesome-button')[0]).click();
-  }
-}
+import { setupAutolike } from './utils/autolike';
 
-let autoAwesome;
+setupAutolike();
 
 // Listen to messages sent from other parts of the extension.
 chrome.runtime.onMessage.addListener((request) => {
@@ -18,11 +9,11 @@ chrome.runtime.onMessage.addListener((request) => {
 
   if (request.autoAwesome && request.message === 'enableAutoAwesome') {
     chrome.storage.sync.set({ autoAwesome: true }, function () {
-      autoAwesome = setInterval(voteAwesome, 10000);
+      (<HTMLElement>document.querySelector('#init_autolike')).click();
     });
   } else if (!request.autoAwesome && request.message === 'disableAutoAwesome') {
     chrome.storage.sync.set({ autoAwesome: false }, function () {
-      clearInterval(autoAwesome);
+      (<HTMLElement>document.querySelector('#destruct_autolike')).click();
     });
   }
 
@@ -31,6 +22,9 @@ chrome.runtime.onMessage.addListener((request) => {
 
 chrome.storage.sync.get('autoAwesome', function (result) {
   if (result['autoAwesome']) {
-    autoAwesome = setInterval(voteAwesome, 10000);
+    // Delay so setupAutolike can run first
+    setTimeout(() => {
+      (<HTMLElement>document.querySelector('#init_autolike')).click();
+    }, 2000);
   }
 });
