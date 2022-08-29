@@ -1,11 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
   "name": "ttfm+",
   "description": "A better way to turn tables.",
   "version": "1.0.0",
-
-  "browser_action": {
+  "action": {
     "default_icon": "assets/icon16.png",
     "default_popup": "popup.html"
   },
@@ -25,11 +24,8 @@
     "activeTab",
     "storage"
   ],
-  "optional_permissions": [
-    "<all_urls>"
-  ],
-  "web_accessible_resources": [
-    "styles/darktheme.css",
-    "autolike/index.js"
-  ]
+  "web_accessible_resources": [{
+    "resources": ["styles/darktheme.css", "autolike/index.js"],
+    "matches": ["*://*.turntable.fm/*"]
+  }]
 }
