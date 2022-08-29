@@ -9,10 +9,6 @@
     "default_icon": "assets/icon16.png",
     "default_popup": "popup.html"
   },
-  "background": {
-    "scripts": ["js/autolike.js"],
-    "persistent": false
-  },
   "content_scripts": [
     {
       "matches": ["*://*.turntable.fm/*"],
@@ -33,6 +29,7 @@
     "<all_urls>"
   ],
   "web_accessible_resources": [
-    "styles/darktheme.css"
+    "styles/darktheme.css",
+    "autolike/index.js"
   ]
 }
